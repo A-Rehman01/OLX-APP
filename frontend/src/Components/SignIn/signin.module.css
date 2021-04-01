@@ -1,0 +1,20 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.siginContainer {
+  width: 50%;
+  padding: 40px 40px;
+  background-color: #f2f2f2;
+  margin: 0 auto;
+  margin-top: 70px;
+  margin-bottom: 70px;
+  border-radius: 20px;
+}
+.heading {
+  color: #3f51b5;
+}
+
+.inputField {
+  width: 100%;
+}

@@ -1,0 +1,284 @@
+@import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap');
+
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+.HeaderContainer {
+  padding: 10px;
+  background-color: #f2f2f2;
+  border-bottom: 2px solid #e6e6e6;
+  box-shadow: 0px 1px 5px #e6e6e6;
+  position: sticky;
+  top: 0;
+  z-index: 2000;
+}
+.Heading {
+  text-align: center;
+  /* font-size: 22px; */
+}
+.searchicon {
+  background-color: white;
+  border-left: 2px solid black;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+  padding: 9px;
+}
+.searchiconfocus {
+  background-color: white;
+  border-left: 2px solid #a3e4d7;
+  border-top: 2px solid #a3e4d7;
+  border-bottom: 2px solid #a3e4d7;
+  padding: 9px;
+}
+@keyframes rotatepos {
+  from {
+    transform: rotateZ(0deg);
+  }
+  to {
+    transform: rotateZ(180deg);
+  }
+}
+@keyframes rotateneg {
+  from {
+    transform: rotateZ(0deg);
+  }
+  to {
+    transform: rotateZ(-180deg);
+  }
+}
+.Search1 div {
+  border-right: 2px solid black;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+  background-color: white;
+  padding: 7px !important;
+}
+.Searchfocus div {
+  border-right: 2px solid #a3e4d7;
+  border-top: 2px solid #a3e4d7;
+  border-bottom: 2px solid #a3e4d7;
+  background-color: white;
+  padding: 7px !important;
+}
+.arrowdown {
+  animation-name: rotateneg;
+  animation-duration: 0.4s;
+  animation-fill-mode: forwards;
+}
+.arrowup {
+  animation-name: rotatepos;
+  animation-duration: 0.4s;
+  animation-fill-mode: forwards;
+}
+.Search1 {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+.Searchfocus {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+.Searchfocus input {
+  border-left: none;
+  border-right: none;
+  border-top: 2px solid #a3e4d7;
+  border-bottom: 2px solid #a3e4d7;
+  width: 100%;
+  padding: 9px;
+  height: 24px !important;
+}
+.Search1 input {
+  border-left: none;
+  border-right: none;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+  width: 100%;
+  padding: 9px;
+  height: 24px !important;
+}
+.Searchfocus input:focus {
+  outline: none;
+}
+.Search1 input:focus {
+  outline: none;
+}
+
+.Search2 {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+.Search2 input {
+  border-left: 2px solid black;
+  border-right: none;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+  width: 100%;
+  padding: 9px;
+}
+.searchicon2 {
+  border-right: 2px solid black;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+  background-color: black;
+  color: white !important;
+  padding: 9px;
+}
+.LoginHeading {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  cursor: pointer;
+}
+.LoginHeadingwrite {
+  text-align: center;
+  color: black;
+  font-weight: bold;
+}
+.LoginHeadingunderline {
+  margin-top: 2px !important;
+  text-align: center;
+  width: 50px;
+  border-bottom: 2px solid black;
+  margin: 0 auto;
+}
+.LoginSell {
+  background: linear-gradient(to top right, #facc2e, #facc2e, #81f7f3, #2e2efe);
+  padding: 6px;
+  width: 70%;
+  border-radius: 30px;
+}
+.LoginSell div {
+  background-color: white;
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+}
+.LoginSell p {
+  text-align: center;
+  font-weight: bold;
+  /* margin-left: 2px; */
+}
+.LoginSellicon {
+  text-align: center;
+  font-weight: bold !important;
+  /* margin-right: 2px; */
+}
+.secongrid {
+  display: flex !important;
+  flex-wrap: wrap-reverse !important;
+}
+
+.dropdown {
+  width: 325px;
+  position: absolute;
+  height: 300px;
+  background-color: white;
+  box-shadow: 0px 1px 5px #e6e6e6;
+  border: 1px solid #e6e6e6;
+  overflow-y: auto;
+}
+
+.mylocation {
+  display: flex;
+  justify-content: center;
+  padding: 10px 25px;
+}
+.mylocation p {
+  margin: 0 10px;
+  font-size: 16px;
+  color: blue;
+}
+.mylocation:hover {
+  background-color: #a3e4d7;
+}
+.poplocationheading,
+.recentlocationheading {
+  color: gray;
+  margin-bottom: 20px;
+  font-size: 13px;
+  text-transform: uppercase;
+  padding: 5px 15px;
+}
+
+.poplocation,
+.Recentlocation {
+  display: flex;
+  align-items: center;
+}
+
+.poplocContainer li {
+  cursor: pointer;
+  padding: 10px 25px;
+}
+.RecentlocContainer li {
+  cursor: pointer;
+  padding: 10px 25px !important;
+}
+
+.poplocContainer li:hover {
+  background-color: #a3e4d7 !important;
+}
+.RecentlocContainer li:hover {
+  background-color: #a3e4d7 !important;
+}
+.poplocation p {
+  margin: 0 10px;
+  color: gray;
+  font-size: 14px;
+}
+.Recentlocation p {
+  margin: 0 10px;
+  color: gray;
+  font-size: 14px;
+}
+.poplocation,
+.Recentlocation span {
+  color: gray !important;
+}
+
+@media only screen and (max-width: 650px) {
+  .HeaderContainer {
+    /* background-color: lightblue; */
+    padding: 5px !important;
+  }
+  .searchicon,
+  .arrowicon,
+  .Search1 input,
+  .searchicon2,
+  .Search2 input {
+    padding: 4px;
+  }
+  .LoginSell {
+    width: 90%;
+    padding: 3px;
+  }
+  .LoginSell div {
+    padding: 0;
+  }
+  .LoginHeading,
+  .LoginSell {
+    margin-top: 6px !important;
+  }
+  .Heading {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    margin-bottom: 13px !important;
+    height: 33px !important;
+  }
+  .Search1 div {
+    padding: 2px !important;
+  }
+  .arrowup {
+    margin-top: 5px !important;
+  }
+  .Searchfocus div {
+    padding: 2px !important;
+  }
+}

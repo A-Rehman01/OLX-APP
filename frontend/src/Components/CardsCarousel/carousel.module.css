@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@500&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    text-decoration: none !important;
+    /* color: black !important; */
+}
+a{
+    text-decoration: none;
+}
+
+.CardsCarousel{
+    padding: 10px;
+    background-color: #F2F2F2;
+    margin-top: 20px;
+}
+.CardsCarouselforRelatedProducts{
+    padding: 10px;
+}
+.Moreonlaptop{
+    margin-bottom: 10px;
+    padding-right: 23px !important;
+    padding-left: 23px !important;
+    font-size: 22px;
+    font-weight: 500;
+}
+.MainGrid{
+    padding-right: 25px !important;
+    padding-left: 25px !important;
+    
+}
+.card{
+    border: 1px solid #D8D8D8;
+    border-radius: 5px;
+    background-color: white;
+    margin-left: 7px;
+}
+.Uppercard{
+    text-align: center !important;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 8px;
+}
+.BottomCard{
+    border-left: 5px solid #FACC2E;
+    padding: 8px;
+}
+.ProductDetail{
+    margin-bottom: 35px;
+}
+.Productimgold{
+    max-width: 170px;
+    min-width: 100px;
+    margin: 0 auto;
+    min-height: 120px;
+    max-height: 150px;
+}
+.Productimgolddiv{
+    margin: 0 auto;
+}
+.Productimg{
+    max-width: 170px;
+    min-width: 100px;
+    position: relative;
+    right: 20px;
+    min-height: 120px;
+    max-height: 150px;
+}
+.Featured{
+    background-color: #FACC2E;
+    z-index: 1;
+    height: fit-content;
+    padding: 3px;
+    font-size: 14px;
+    color: black !important;
+}
+
+.productPrice{
+    font-size: 20px;
+    margin-bottom: 5px;
+    font-family: 'Rubik', sans-serif;
+    color: black !important;
+}
+.productName{
+    color: gray !important;
+    height: 15px;
+    font-size: 14px;
+}
+.addressData{
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+}
+.AddressCity{
+    text-transform: uppercase;
+    color: gray !important;
+}
+.Date{
+    color: gray !important;  
+    text-transform: uppercase;  
+}
+
+.customarrowright{
+    background-color: rgb(180, 134, 134);
+    /* position: relative;
+    top: 0; */
+    /* position: relative;
+    left: 1000px; */
+    height: 100px;
+    /* float: right; */
+    display: flex;
+}
+
+.carosel{
+    display: flex;
+}
+@media only screen and (max-width: 650px) {
+.Moreonlaptop{
+    text-align: center;
+}
+}
+@media only screen and (max-width: 464px) {
+    .card{
+        width: 280px;
+        margin: 0 auto;
+    }
+    }

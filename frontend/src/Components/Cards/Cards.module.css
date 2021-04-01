@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@500&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    text-decoration: none !important;
+    /* color: black !important; */
+}
+a{
+    text-decoration: none;
+}
+.CardsCantainer{
+    margin-top: 20px;    
+}
+.Recomendation{
+    margin-bottom: 10px;
+    padding-right: 25px !important;
+    padding-left: 25px !important;
+    font-size: 22px;
+    font-weight: 500;
+}
+.MainGrid{
+    padding-right: 25px !important;
+    padding-left: 25px !important;
+    
+}
+.card{
+    border: 1px solid #D8D8D8;
+    /* width: 270px; */
+    border-radius: 5px;
+    margin-top: 7px;
+    /* height: 310px; */
+    background-color: white;
+}
+.Uppercard{
+    /* border: 2px solid red; */
+    text-align: center !important;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 8px;
+}
+.BottomCard{
+    border-left: 5px solid #FACC2E;
+    padding: 8px;
+}
+.ProductDetail{
+    margin-bottom: 35px;
+}
+.Productimgold{
+    max-width: 170px;
+    min-width: 100px;
+    margin: 0 auto;
+    min-height: 120px;
+    max-height: 150px;
+}
+.Productimgolddiv{
+    margin: 0 auto;
+}
+.Productimg{
+    max-width: 170px;
+    min-width: 100px;
+    position: relative;
+    right: 20px;
+    min-height: 120px;
+    max-height: 150px;
+}
+.Featured{
+    background-color: #FACC2E;
+    z-index: 1;
+    height: fit-content;
+    padding: 3px;
+    font-size: 14px;
+    color: black !important;
+}
+
+.productPrice{
+    font-size: 20px;
+    margin-bottom: 5px;
+    font-family: 'Rubik', sans-serif;
+    color: black !important;
+}
+.productName{
+    color: gray !important;
+    height: 15px;
+    font-size: 14px;
+}
+.addressData{
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+}
+.AddressCity{
+    text-transform: uppercase;
+    color: gray !important;
+}
+.Date{
+    color: gray !important;  
+    text-transform: uppercase;  
+}
+@media only screen and (max-width: 650px) {
+.Recomendation{
+    text-align: center;
+}
+}

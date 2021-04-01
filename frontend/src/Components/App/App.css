@@ -1,0 +1,46 @@
+@import "~react-image-gallery/styles/css/image-gallery.css";
+/* .AppContainer{
+
+} */
+
+
+
+
+/* Image Gallery Customize */
+.image-gallery-thumbnails .image-gallery-thumbnails-container{
+    text-align: left !important;
+}
+.image-gallery-left-nav .image-gallery-svg, .image-gallery-right-nav .image-gallery-svg{
+height: 50px !important;
+}
+.image-gallery-icon{
+    z-index: 1 !important;
+}
+.image-gallery-svg{
+    height: 30px !important;
+}
+.image-gallery-slide-wrapper{
+background-color: black !important;
+/* padding: 15px; */
+}
+
+.image-gallery-thumbnail.active, .image-gallery-thumbnail:hover, .image-gallery-thumbnail:focus{
+    border: 2px solid black !important;
+}
+.image-gallery-index{
+    margin-right: 20px!important;
+    margin-top: 10px;
+    z-index: 1 !important;
+}
+@media only screen and (max-width: 740px) {   
+.image-gallery-thumbnails{
+   display: none !important; 
+}
+.image-gallery-slide-wrapper div{
+    max-height: 270px;
+}
+.image-gallery-slide-wrapper{
+    padding: 0 !important;
+}
+}
+/* Image Gallery Customize ======= End */
