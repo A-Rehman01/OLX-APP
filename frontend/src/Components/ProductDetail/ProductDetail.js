@@ -3,7 +3,7 @@ import { ImgGallery } from './Image_Gallery';
 import style from './ProductDetail.module.css';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Detail, detailpro } from '../../Reducer/ProductSlice';
+import { Detail, getProductsByID, detailpro } from '../../Reducer/ProductSlice';
 import Grid from '@material-ui/core/Grid';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import CallOutlinedIcon from '@material-ui/icons/CallOutlined';
@@ -11,23 +11,28 @@ import ShareOutlinedIcon from '@material-ui/icons/ShareOutlined';
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import img from '../../Assests/CategoryUpperdd.png';
 import { RelatedProduct } from './RelatedProduct';
+import Moment from 'react-moment';
+import Loader from '../Loader';
 
 export default function ProductDetail() {
   const { productid } = useParams();
   const dispatch = useDispatch();
+
   const data = useSelector(detailpro);
-  const { detail } = data;
+  const { detail, loading } = data;
+  console.log(detail);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     async function getData() {
-      dispatch(Detail(productid));
+      // dispatch(Detail(productid));
+      dispatch(getProductsByID(productid));
     }
     getData();
   }, [dispatch, productid]);
 
-  if (!data.loading) {
-    return <h3>Loading</h3>;
+  if (loading && !detail) {
+    return <Loader />;
   }
   return (
     <div className={style.ProductContainer}>
@@ -36,21 +41,23 @@ export default function ProductDetail() {
       </div>
       <Grid container justify='center' spacing={1}>
         <Grid item xs={11} sm={8} className={style.imagesanddiscription}>
-          <ImgGallery image={detail?.images} />
+          {detail && detail.images && <ImgGallery image={detail?.images} />}
           <div className={style.DiscriptionDetail}>
             <h3>Detail</h3>
             <div className={style.Detail}>
-              {Object.keys(detail?.Detail).map((obj, ind) => {
-                const temp = detail?.Detail[obj];
-                console.log(temp);
-                console.log(obj);
-                return (
-                  <div key={ind}>
-                    <div className={style.detailtag}>{obj}</div>
-                    <div>{temp}</div>
-                  </div>
-                );
-              })}
+              {detail &&
+                detail.Detail &&
+                Object.keys(detail?.Detail).map((obj, ind) => {
+                  const temp = detail?.Detail[obj];
+                  // console.log(temp);
+                  // console.log(obj);
+                  return (
+                    <div key={ind}>
+                      <div className={style.detailtag}>{obj}</div>
+                      <div>{temp}</div>
+                    </div>
+                  );
+                })}
             </div>
             {detail?.discription ? <hr /> : null}
             {detail?.discription ? <h3>Description</h3> : null}
@@ -94,9 +101,12 @@ export default function ProductDetail() {
                 alt='img'
               />
               <div>
-                <div className={style.SallerName}>{detail?.sellername}</div>
+                <div className={style.SallerName}>{detail?.user?.name}</div>
                 <div className={style.joindate}>
-                  Member Since {detail?.sellerjoindate}
+                  Member Since{' '}
+                  <Moment format='YYYY-MM-DD'>
+                    {detail?.user?.sellerjoindate}
+                  </Moment>
                 </div>
               </div>
               <NavigateNextIcon />

@@ -4,8 +4,13 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { userData, userLogin } from '../../Reducer/UserSlice';
 
 const SignIn = () => {
+  const dispatch = useDispatch();
+  const data = useSelector(userData);
+  console.log('inState =====>', data);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -15,7 +20,9 @@ const SignIn = () => {
       email,
       password,
     };
-    console.log(data);
+    // console.log(data);
+    dispatch(userLogin(data));
+
     setEmail('');
     setPassword('');
   };

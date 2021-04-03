@@ -1,66 +1,90 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import Data from '../DummyData.json';
+import axios from 'axios';
 
+export const getProducts = createAsyncThunk('getProductsFromAPI', async () => {
+  try {
+    const { data } = await axios.get('/api/products');
+    // console.log('Products list=> ', data);
+    return await data;
+  } catch (err) {
+    console.log(err.response);
+  }
+});
+
+export const getProductsByID = createAsyncThunk(
+  'getProductsbyIDFromAPI',
+  async (id) => {
+    try {
+      const { data } = await axios.get(`/api/products/${id}`);
+      console.log('Products Details=> ', data);
+      return await data;
+    } catch (err) {
+      console.log(err.response);
+    }
+  }
+);
 
 export const ProductSlice = createSlice({
-    name: 'productlist',
-    initialState: {
-        items: [],
-        isloading: false,
-        detail: [],
-        detailLoading: false,
-        Rproduct: [],
-        RproductLoading: false,
-    },
+  name: 'productlist',
+  initialState: {
+    isloading: false,
+    detail: [],
+    detailLoading: false,
+    Rproduct: [],
+    RproductLoading: false,
+    Products: [],
+    ProduuctByID: [],
+  },
 
-    reducers: {
-        AddItems: (state, action) => {
-            return {
-                ...state,
-                items: Data,
-                isloading: true
-            }
-        },
-        Detail: (state, action) => {
-            return {
-                ...state,
-                detail: Data.find((obj) => (obj.id === action.payload)),
-                detailLoading: true
-            }
-        },
-        SimilarProduct: (state, action) => {
-            return {
-                ...state,
-                Rproduct: Data.filter((obj) => (
-                    obj.Category === action.payload.productCategory && obj.id !== action.payload.productid
-                )),
-                RproductLoading: true
-            }
-        }
-    },
-})
+  reducers: {},
 
-export const { AddItems, Detail, SimilarProduct } = ProductSlice.actions;
+  extraReducers: {
+    [getProducts.fulfilled]: (state, action) => {
+      // console.log('fullfild');
+      // console.log(action.payload);
+      state.Products = action.payload;
+      state.isloading = false;
+    },
+    [getProducts.reject]: (state, action) => {
+      //   console.log('API rejected');
+      console.log(action.payload);
+      state.isloading = false;
+    },
+    [getProducts.pending]: (state, action) => {
+      //   console.log('pending');
+      state.isloading = true;
+    },
+    [getProductsByID.fulfilled]: (state, action) => {
+      // console.log('fullfild');
+      state.detail = action.payload;
+      state.detailLoading = false;
+    },
+    [getProductsByID.reject]: (state, action) => {
+      // console.log('API rejected');
+      state.detailLoading = false;
+    },
+    [getProductsByID.pending]: (state, action) => {
+      // console.log('pending');
+      state.detailLoading = true;
+    },
+  },
+});
+
+export const {} = ProductSlice.actions;
 
 export const productdata = (state) => {
-    return ({
-        productlist: state.productlist.items,
-        loading: state.productlist.isloading
-    })
-}
+  return {
+    productlist: state.productlist.Products,
+    loading: state.productlist.isloading,
+  };
+};
 
 export const detailpro = (state) => {
-    return ({
-        detail: state.productlist.detail,
-        loading: state.productlist.detailLoading
-    })
-}
-
-export const similarpro = (state) => {
-    return ({
-        product: state.productlist.Rproduct,
-        loading: state.productlist.RproductLoading
-    })
-}
+  return {
+    detail: state.productlist.detail,
+    loading: state.productlist.detailLoading,
+  };
+};
 
 export default ProductSlice.reducer;

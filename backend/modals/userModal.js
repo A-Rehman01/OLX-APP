@@ -16,7 +16,7 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    date: {
+    sellerjoindate: {
       type: Date,
       default: Date.now,
     },

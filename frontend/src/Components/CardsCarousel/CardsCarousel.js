@@ -24,10 +24,10 @@ const responsive = {
   },
 };
 export function CardsCarousel() {
-  const data = useSelector(productdata);
-  console.log(data);
+  const { productlist, loading } = useSelector(productdata);
+  // console.log(productlist);
 
-  if (!data.loading) {
+  if (loading) {
     return null;
   }
 
@@ -50,9 +50,12 @@ export function CardsCarousel() {
         itemClass='carousel-item-padding-40-px'
         // slidesToSlide={2}
       >
-        {data.productlist.map((obj) => {
-          return <Cards key={obj.id} obj={obj} />;
-        })}
+        {productlist
+          .slice(0)
+          .reverse()
+          .map((obj) => {
+            return <Cards key={obj.id} obj={obj} />;
+          })}
       </Carousel>
     </div>
   );

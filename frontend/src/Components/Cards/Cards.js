@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { productdata } from '../../Reducer/ProductSlice';
 import Grid from '@material-ui/core/Grid';
 import { Link } from 'react-router-dom';
+import Loader from '../Loader';
 
 let LessDetail = (data) => {
   var returndata = '';
@@ -26,8 +27,8 @@ export function Cards() {
   const data = useSelector(productdata);
   console.log(data);
 
-  if (!data.loading) {
-    return <h3>Loading</h3>;
+  if (data.loading) {
+    return <Loader />;
   }
 
   return (
@@ -43,7 +44,7 @@ export function Cards() {
         {data.productlist.map((obj) => {
           return (
             <Grid key={obj.id} item xs={11} sm={3}>
-              <Link to={`product/${obj.id}`}>
+              <Link to={`product/${obj._id}`}>
                 <div className={style.card}>
                   <div className={style.Uppercard}>
                     {obj.featured ? (

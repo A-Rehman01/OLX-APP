@@ -10,12 +10,12 @@ const getimages=(img)=>{
         return {original,thumbnail}
         
     })
-    console.log(sendimages)
+    // console.log(sendimages)
     return sendimages;
 }
 
 export  function ImgGallery({image}) {
-    console.log('images==>',image)
+    // console.log('images==>',image)
     return (
 
         <div className={style.ImageGallery}>

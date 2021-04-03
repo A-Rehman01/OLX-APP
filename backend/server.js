@@ -2,8 +2,13 @@ const express = require('express');
 const dotenv = require('dotenv');
 const colors = require('colors');
 const connectDB = require('./config/db');
-const { notFound, errorHandler } = require('./middlewares/errorMiddleware');
+const {
+  notFound,
+  errorHandler,
+  cors,
+} = require('./middlewares/errorMiddleware');
 const userRoutes = require('./routes/userRoutes');
+const productRoutes = require('./routes/productRoutes');
 dotenv.config();
 
 //Conneect DB
@@ -14,6 +19,9 @@ const app = express();
 //Except JSON data in body-parser
 app.use(express.json());
 
+//Handle CORS
+app.use(cors);
+
 //Test Server
 app.get('/', (req, res) => {
   res.send('API  is Running....');
@@ -21,6 +29,7 @@ app.get('/', (req, res) => {
 
 //Routes
 app.use('/api/users', userRoutes);
+app.use('/api/products', productRoutes);
 
 //Custom_Errorhandling
 app.use(notFound);

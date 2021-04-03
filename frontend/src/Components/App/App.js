@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { AddItems } from '../../Reducer/ProductSlice';
+import { AddItems, getProducts } from '../../Reducer/ProductSlice';
 
 import './App.css';
 
@@ -21,7 +21,8 @@ function App() {
 
   useEffect(() => {
     async function getData() {
-      dispatch(AddItems());
+      // dispatch(AddItems());
+      dispatch(getProducts());
     }
     getData();
   }, [dispatch]);

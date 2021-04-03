@@ -4,8 +4,11 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
+import { userRegister } from '../../Reducer/UserSlice';
+import { useDispatch } from 'react-redux';
 
 const SignUp = () => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
@@ -21,11 +24,12 @@ const SignUp = () => {
       email,
       password,
     };
-    console.log(data);
-    setName('');
-    setEmail('');
-    setPassword('');
-    setConfirmPassword('');
+    // console.log(data);
+    dispatch(userRegister(data));
+    // setName('');
+    // setEmail('');
+    // setPassword('');
+    // setConfirmPassword('');
   };
 
   return (
