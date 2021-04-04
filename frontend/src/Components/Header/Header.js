@@ -10,15 +10,27 @@ import { OutSideClick } from './OutsideClick';
 import { useSelector, useDispatch } from 'react-redux';
 import { userData, LogoutUser } from '../../Reducer/UserSlice';
 import { Menu, MenuItem } from '@material-ui/core';
+import Popover from '@material-ui/core/Popover';
 
 export function Header() {
   const dispatch = useDispatch();
-  const [display, setdisplay] = useState(false);
-
   const data = useSelector(userData);
   const { user } = data;
 
+  const [display, setdisplay] = useState(false);
+  const [openPopover, setOpenPopover] = React.useState(null);
+
   const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handlePopoverOpen = (event) => {
+    setOpenPopover(event.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setOpenPopover(null);
+  };
+
+  const open = Boolean(openPopover);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -108,14 +120,36 @@ export function Header() {
             </div>
           </Grid>
           <Grid item xs={6} sm={2}>
-            <Link to='/productsell'>
-              <div className={style.LoginSell}>
-                <div>
-                  <AddIcon className={style.LoginSellicon} />
-                  <p>Sell</p>
+            {user && (
+              <Link to='/productsell'>
+                <div className={style.LoginSell}>
+                  <div>
+                    <AddIcon className={style.LoginSellicon} />
+                    <p>Sell</p>
+                  </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
+            )}
+            {!user && (
+              <>
+                <div className={style.LoginSell} onClick={handlePopoverOpen}>
+                  <div>
+                    <AddIcon className={style.LoginSellicon} />
+                    <p>Sell</p>
+                  </div>
+                </div>
+                <Menu
+                  id='simple-menu'
+                  anchorEl={openPopover}
+                  keepMounted
+                  open={Boolean(openPopover)}
+                  onClose={handlePopoverClose}
+                  style={{ zIndex: 2000, top: '7%' }}
+                >
+                  <MenuItem>FirstLogin</MenuItem>
+                </Menu>
+              </>
+            )}
           </Grid>
         </Grid>
       </Grid>

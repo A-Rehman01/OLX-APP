@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { AddItems, getProducts } from '../../Reducer/ProductSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProducts } from '../../Reducer/ProductSlice';
+import { createProductdata } from '../../Reducer/ProductSlice';
 
 import './App.css';
 
@@ -18,6 +19,8 @@ import Sell from '../../Pages/Sell';
 
 function App() {
   const dispatch = useDispatch();
+  const data = useSelector(createProductdata);
+  const { success } = data;
 
   useEffect(() => {
     async function getData() {
@@ -25,7 +28,7 @@ function App() {
       dispatch(getProducts());
     }
     getData();
-  }, [dispatch]);
+  }, [dispatch, success]);
 
   return (
     <div className='AppContainer'>

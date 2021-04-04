@@ -17,7 +17,29 @@ export const getProductsByID = createAsyncThunk(
   async (id) => {
     try {
       const { data } = await axios.get(`/api/products/${id}`);
-      console.log('Products Details=> ', data);
+      // console.log('Products Details=> ', data);
+      return await data;
+    } catch (err) {
+      console.log(err.response);
+    }
+  }
+);
+
+export const createProduct = createAsyncThunk(
+  'createProductsFromAPI',
+  async (ProductData) => {
+    const userInfo = localStorage.getItem('userInfo')
+      ? JSON.parse(localStorage.getItem('userInfo'))
+      : null;
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+      const { data } = await axios.post(`/api/products/`, ProductData, config);
+      console.log('Product Created=> ', data);
       return await data;
     } catch (err) {
       console.log(err.response);
@@ -35,6 +57,8 @@ export const ProductSlice = createSlice({
     RproductLoading: false,
     Products: [],
     ProduuctByID: [],
+    success: '',
+    createLoading: false,
   },
 
   reducers: {},
@@ -68,6 +92,21 @@ export const ProductSlice = createSlice({
       // console.log('pending');
       state.detailLoading = true;
     },
+
+    [createProduct.fulfilled]: (state, action) => {
+      // console.log('fullfild');
+      state.success = action.payload.message;
+
+      state.createLoading = false;
+    },
+    [createProduct.reject]: (state, action) => {
+      // console.log('API rejected');
+      state.createLoading = false;
+    },
+    [createProduct.pending]: (state, action) => {
+      // console.log('pending');
+      state.createLoading = true;
+    },
   },
 });
 
@@ -84,6 +123,13 @@ export const detailpro = (state) => {
   return {
     detail: state.productlist.detail,
     loading: state.productlist.detailLoading,
+  };
+};
+
+export const createProductdata = (state) => {
+  return {
+    success: state.productlist.success,
+    loading: state.productlist.createLoading,
   };
 };
 

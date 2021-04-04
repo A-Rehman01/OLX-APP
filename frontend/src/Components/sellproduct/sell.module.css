@@ -1,0 +1,57 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.siginContainer {
+  width: 50%;
+  padding: 40px 40px;
+  background-color: #f2f2f2;
+  margin: 0 auto;
+  margin-top: 70px;
+  margin-bottom: 70px;
+  border-radius: 20px;
+}
+.heading {
+  color: #3f51b5;
+  margin: 10px !important;
+}
+.subTitle {
+  color: #3f51b5;
+  margin: 10px !important;
+}
+
+.inputField {
+  width: 100%;
+  margin: 10px !important;
+}
+.textArea {
+  width: 100%;
+  margin: 10px !important;
+  background-color: transparent !important;
+  border: 1px solid #3f51b5 !important;
+  outline: none !important;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 50px !important;
+}
+.fieldsContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fieldsContainerImage {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  /* background-color: #3f51b5; */
+  margin: auto 0;
+}
+.inputFieldImage {
+  margin: 10px !important;
+  text-align: left;
+}
+
+.imageLabel {
+  margin-right: 10px !important;
+}

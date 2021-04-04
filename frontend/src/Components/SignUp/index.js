@@ -26,10 +26,10 @@ const SignUp = () => {
     };
     // console.log(data);
     dispatch(userRegister(data));
-    // setName('');
-    // setEmail('');
-    // setPassword('');
-    // setConfirmPassword('');
+    setName('');
+    setEmail('');
+    setPassword('');
+    setConfirmPassword('');
   };
 
   return (
