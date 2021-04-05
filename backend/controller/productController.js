@@ -49,8 +49,13 @@ const getCategory = asyncHandler(async (req, res) => {
 const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
   if (product) {
-    await product.remove();
-    res.json({ message: 'Product Removed Successfully' });
+    if (JSON.stringify(req.user._id) !== JSON.stringify(product.user)) {
+      res.status(401);
+      throw new Error('Permission Denied');
+    } else {
+      await product.remove();
+      res.json({ message: 'Product Removed Successfully' });
+    }
   } else {
     res.status(404);
     throw new Error('Product not Found');
@@ -61,16 +66,12 @@ const deleteProduct = asyncHandler(async (req, res) => {
 // @route   GET /api/products/myproducts
 // @access  Private
 const getMyProducts = asyncHandler(async (req, res) => {
-  const product = await Product.findById(req.params.id).populate(
-    'user',
-    'sellerjoindate name'
-  );
-  // console.log(product);
-  if (product) {
+  const product = await Product.find({ user: req.user._id });
+  if (product.length) {
     res.json(product);
   } else {
     res.status(404);
-    throw new Error('Product not Found');
+    throw new Error('Not any Product at Yet');
   }
 });
 
@@ -137,7 +138,14 @@ const createProduct = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { getProducts, getProductById, createProduct, getCategory };
+module.exports = {
+  getProducts,
+  getProductById,
+  createProduct,
+  getCategory,
+  getMyProducts,
+  deleteProduct,
+};
 
 // const productFields = {};
 //   productFields.user = req.user.id;

@@ -70,6 +70,49 @@ export const createProduct = createAsyncThunk(
   }
 );
 
+export const getMyProduct = createAsyncThunk(
+  'getMyProductFromAPI',
+  async () => {
+    const userInfo = localStorage.getItem('userInfo')
+      ? JSON.parse(localStorage.getItem('userInfo'))
+      : null;
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+      const { data } = await axios.get(`/api/products/myproducts`, config);
+      console.log('My Product => ', data);
+      return await data;
+    } catch (err) {
+      console.log(err.response?.data?.message);
+      return await err.response?.data?.message;
+    }
+  }
+);
+
+export const deleteProduct = createAsyncThunk(
+  'deleteProductFromAPI',
+  async (id) => {
+    const userInfo = localStorage.getItem('userInfo')
+      ? JSON.parse(localStorage.getItem('userInfo'))
+      : null;
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+      const { data } = await axios.delete(`/api/products/${id}`, config);
+      console.log('Products Delete=> ', data);
+      return await data;
+    } catch (err) {
+      console.log(err.response);
+    }
+  }
+);
+
 export const ProductSlice = createSlice({
   name: 'productlist',
   initialState: {
@@ -85,6 +128,11 @@ export const ProductSlice = createSlice({
     categories: [],
     categoriesLoading: false,
     FilterProduct: [],
+    myProducts: [],
+    myProductLoading: false,
+    errorInmyProducts: '',
+    deleteSucess: false,
+    deleteSucessloading: false,
   },
 
   reducers: {
@@ -162,6 +210,37 @@ export const ProductSlice = createSlice({
       // console.log('pending');
       state.categoriesLoading = true;
     },
+
+    [getMyProduct.fulfilled]: (state, action) => {
+      console.log('fullfiled');
+      if (action.payload === 'Not any Product at Yet') {
+        state.errorInmyProducts = action.payload;
+        state.myProducts = [];
+      } else {
+        state.errorInmyProducts = '';
+        state.myProducts = action.payload;
+      }
+      state.myProductLoading = false;
+    },
+    [getMyProduct.reject]: (state, action) => {
+      state.myProductLoading = false;
+      // console.log(action.payload);
+      state.errorInmyProducts = action.payload;
+    },
+    [getMyProduct.pending]: (state, action) => {
+      state.myProductLoading = true;
+    },
+
+    [deleteProduct.fulfilled]: (state, action) => {
+      state.deleteSucess = true;
+      state.deleteSucessloading = false;
+    },
+    [deleteProduct.reject]: (state, action) => {
+      state.deleteSucessloading = false;
+    },
+    [deleteProduct.pending]: (state, action) => {
+      state.deleteSucessloading = true;
+    },
   },
 });
 
@@ -198,6 +277,21 @@ export const getCategoryList = (state) => {
 export const getProductbyFilter = (state) => {
   return {
     filterProduct: state.productlist.FilterProduct,
+  };
+};
+
+export const getMyProductsList = (state) => {
+  return {
+    list: state.productlist.myProducts,
+    loading: state.productlist.myProductLoading,
+    error: state.productlist.errorInmyProducts,
+  };
+};
+
+export const ProductDelete = (state) => {
+  return {
+    loading: state.productlist.deleteSucessloading,
+    success: state.productlist.deleteSucess,
   };
 };
 

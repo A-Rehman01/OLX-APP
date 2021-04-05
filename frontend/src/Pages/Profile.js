@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react';
-import SiginInForm from '../Components/SignIn';
 import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { userData } from '../Reducer/UserSlice';
+import MyProduct from '../Components/products';
 
-const SignIn = () => {
+const Profile = () => {
+  const data = useSelector(userData);
+  const { user } = data;
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  const data = useSelector(userData);
-  const { user } = data;
-  return <div>{user ? <Navigate to='/' /> : <SiginInForm />}</div>;
+  return <div>{user ? <MyProduct /> : <Navigate to='/login' />}</div>;
 };
 
-export default SignIn;
+export default Profile;

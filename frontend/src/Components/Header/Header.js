@@ -121,7 +121,10 @@ export function Header() {
                     <Link to='/login'>Login</Link>
                   </MenuItem>
                 )}
-                <MenuItem onClick={handleClose}>Products</MenuItem>
+                <MenuItem onClick={handleClose}>
+                  {' '}
+                  <Link to='/myproducts'>Profile</Link>
+                </MenuItem>
                 {user && <MenuItem onClick={Logout}>Logout</MenuItem>}
               </Menu>
             </div>
