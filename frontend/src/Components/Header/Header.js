@@ -11,10 +11,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { userData, LogoutUser } from '../../Reducer/UserSlice';
 import { Menu, MenuItem } from '@material-ui/core';
 import Popover from '@material-ui/core/Popover';
+import { filterProductAction, productdata } from '../../Reducer/ProductSlice';
 
 export function Header() {
   const dispatch = useDispatch();
   const data = useSelector(userData);
+  const Productdata = useSelector(productdata);
+
   const { user } = data;
 
   const [display, setdisplay] = useState(false);
@@ -85,6 +88,10 @@ export function Header() {
               <input
                 type='text'
                 placeholder='Find Cars, Mobile Phones and more...'
+                onChange={(e) => {
+                  const data = e.target.value;
+                  dispatch(filterProductAction(data));
+                }}
               />
               <SearchIcon className={style.searchicon2} />
             </div>

@@ -5,7 +5,7 @@ const  useOutsideClick = (ref,setDisplay) =>{
         function handleOutsideClick(event){
             if (ref.current && !ref.current.contains(event.target)) {
                 setDisplay(false);
-                console.log("falsenot")
+                // console.log("falsenot")
               }
             }
             // Bind the event listener

@@ -1,6 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const colors = require('colors');
+const path = require('path');
 const connectDB = require('./config/db');
 const {
   notFound,
@@ -9,6 +10,8 @@ const {
 } = require('./middlewares/errorMiddleware');
 const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
+const uploadRoutes = require('./routes/uploadRoutes');
+
 dotenv.config();
 
 //Conneect DB
@@ -30,6 +33,12 @@ app.get('/', (req, res) => {
 //Routes
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
+
+//UploadImage Routes
+app.use('/api/upload', uploadRoutes);
+
+const __dirnames = path.resolve();
+app.use('/uploads', express.static(path.join(__dirnames, '/uploads')));
 
 //Custom_Errorhandling
 app.use(notFound);

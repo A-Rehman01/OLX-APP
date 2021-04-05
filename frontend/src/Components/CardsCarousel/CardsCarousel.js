@@ -50,12 +50,14 @@ export function CardsCarousel() {
         itemClass='carousel-item-padding-40-px'
         // slidesToSlide={2}
       >
-        {productlist
-          .slice(0)
-          .reverse()
-          .map((obj) => {
-            return <Cards key={obj.id} obj={obj} />;
-          })}
+        {productlist &&
+          productlist
+            .slice(0)
+            .reverse()
+            .slice(0, 8)
+            .map((obj) => {
+              return <Cards key={obj._id} obj={obj} />;
+            })}
       </Carousel>
     </div>
   );

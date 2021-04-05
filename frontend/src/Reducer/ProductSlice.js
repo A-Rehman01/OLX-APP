@@ -2,6 +2,19 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import Data from '../DummyData.json';
 import axios from 'axios';
 
+const locationsdata = [
+  'Aus',
+  'Eng',
+  'Ing',
+  'Jer',
+  'South-Africa',
+  'Canada',
+  'West',
+  'Itay',
+  'Dubai',
+  'Turkey',
+];
+
 export const getProducts = createAsyncThunk('getProductsFromAPI', async () => {
   try {
     const { data } = await axios.get('/api/products');
@@ -25,6 +38,16 @@ export const getProductsByID = createAsyncThunk(
   }
 );
 
+export const getCategory = createAsyncThunk('getCategoryFromAPI', async () => {
+  try {
+    const { data } = await axios.get('/api/products/category');
+    // console.log('Products Category List=> ', data);
+    return await data;
+  } catch (err) {
+    console.log(err.response);
+  }
+});
+
 export const createProduct = createAsyncThunk(
   'createProductsFromAPI',
   async (ProductData) => {
@@ -39,7 +62,7 @@ export const createProduct = createAsyncThunk(
         },
       };
       const { data } = await axios.post(`/api/products/`, ProductData, config);
-      console.log('Product Created=> ', data);
+      // console.log('Product Created=> ', data);
       return await data;
     } catch (err) {
       console.log(err.response);
@@ -59,15 +82,34 @@ export const ProductSlice = createSlice({
     ProduuctByID: [],
     success: '',
     createLoading: false,
+    categories: [],
+    categoriesLoading: false,
+    FilterProduct: [],
   },
 
-  reducers: {},
+  reducers: {
+    filterProductAction: (state, action) => {
+      // console.log(state.Products);
+      return {
+        ...state,
+        FilterProduct:
+          state.Products &&
+          state.Products.filter(
+            (data) =>
+              data.Category.toLowerCase().indexOf(
+                action.payload.toLowerCase()
+              ) >= 0
+          ),
+      };
+    },
+  },
 
   extraReducers: {
     [getProducts.fulfilled]: (state, action) => {
       // console.log('fullfild');
       // console.log(action.payload);
       state.Products = action.payload;
+      // state.FilterProduct = action.payload;
       state.isloading = false;
     },
     [getProducts.reject]: (state, action) => {
@@ -95,8 +137,7 @@ export const ProductSlice = createSlice({
 
     [createProduct.fulfilled]: (state, action) => {
       // console.log('fullfild');
-      state.success = action.payload.message;
-
+      state.success = action.payload?.message;
       state.createLoading = false;
     },
     [createProduct.reject]: (state, action) => {
@@ -107,10 +148,24 @@ export const ProductSlice = createSlice({
       // console.log('pending');
       state.createLoading = true;
     },
+
+    [getCategory.fulfilled]: (state, action) => {
+      // console.log('fullfild');
+      state.categories = action.payload;
+      state.categoriesLoading = false;
+    },
+    [getCategory.reject]: (state, action) => {
+      // console.log('API rejected');
+      state.categoriesLoading = false;
+    },
+    [getCategory.pending]: (state, action) => {
+      // console.log('pending');
+      state.categoriesLoading = true;
+    },
   },
 });
 
-export const {} = ProductSlice.actions;
+export const { filterProductAction } = ProductSlice.actions;
 
 export const productdata = (state) => {
   return {
@@ -130,6 +185,19 @@ export const createProductdata = (state) => {
   return {
     success: state.productlist.success,
     loading: state.productlist.createLoading,
+  };
+};
+
+export const getCategoryList = (state) => {
+  return {
+    list: state.productlist.categories,
+    loading: state.productlist.categoriesLoading,
+  };
+};
+
+export const getProductbyFilter = (state) => {
+  return {
+    filterProduct: state.productlist.FilterProduct,
   };
 };
 

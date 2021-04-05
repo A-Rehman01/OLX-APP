@@ -17,7 +17,55 @@ const getProductById = asyncHandler(async (req, res) => {
     'user',
     'sellerjoindate name'
   );
-  console.log(product);
+  // console.log(product);
+  if (product) {
+    res.json(product);
+  } else {
+    res.status(404);
+    throw new Error('Product not Found');
+  }
+});
+
+// @desc    GET products Categories
+// @route   GET /api/products/category
+// @access  Public
+const getCategory = asyncHandler(async (req, res) => {
+  const product = await Product.find({});
+  if (product) {
+    const categories = product.map((category) => category.Category);
+    let widthOutRepeatedCategory = categories.filter(
+      (v, i) => categories.indexOf(v) === i
+    );
+    res.json(widthOutRepeatedCategory);
+  } else {
+    res.status(404);
+    throw new Error('categories not Found');
+  }
+});
+
+// @desc    Delete a products
+// @route   DELETE /api/products/:id
+// @access  Private
+const deleteProduct = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id);
+  if (product) {
+    await product.remove();
+    res.json({ message: 'Product Removed Successfully' });
+  } else {
+    res.status(404);
+    throw new Error('Product not Found');
+  }
+});
+
+// @desc    Fetch my products
+// @route   GET /api/products/myproducts
+// @access  Private
+const getMyProducts = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id).populate(
+    'user',
+    'sellerjoindate name'
+  );
+  // console.log(product);
   if (product) {
     res.json(product);
   } else {
@@ -89,7 +137,7 @@ const createProduct = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { getProducts, getProductById, createProduct };
+module.exports = { getProducts, getProductById, createProduct, getCategory };
 
 // const productFields = {};
 //   productFields.user = req.user.id;

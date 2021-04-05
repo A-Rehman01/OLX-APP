@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import style from './sell.module.css';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
@@ -13,14 +13,24 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 
-import { createProduct, createProductdata } from '../../Reducer/ProductSlice';
+import {
+  createProduct,
+  createProductdata,
+  getCategory,
+  getCategoryList,
+} from '../../Reducer/ProductSlice';
+import axios from 'axios';
 
 const ProductSellForm = () => {
   const dispatch = useDispatch();
   const data = useSelector(createProductdata);
   const { success, loading } = data;
 
+  const Categorydata = useSelector(getCategoryList);
+  const { list, loading: categoryLoading } = Categorydata;
   const [Category, setCategory] = useState('');
+  const [customCategory, setCustomCategory] = useState(false);
+  const [customCategoryValue, setCustomCategoryValue] = useState('');
   const [productName, setProductName] = useState('');
   const [productPrice, setProductPrice] = useState('');
   const [Province, setProvince] = useState('');
@@ -35,22 +45,39 @@ const ProductSellForm = () => {
     type: '',
   });
   const [images, setImages] = useState({
-    imgfrontside:
-      'https://apollo-singapore.akamaized.net/v1/files/wlpsi4crhfkl1-PK/image;s=1080x1080',
-    imgleftside:
-      'https://apollo-singapore.akamaized.net/v1/files/0g1kzkoty59q-PK/image;s=1080x1080',
-    imgrightside:
-      'https://apollo-singapore.akamaized.net/v1/files/6hxlk89k6oit3-PK/image;s=1080x1080',
-    imgbackside:
-      'https://apollo-singapore.akamaized.net/v1/files/khgmph75gdqm2-PK/image;s=1080x1080',
+    imgfrontside: '',
+    imgleftside: '',
+    imgrightside: '',
+    imgbackside: '',
   });
 
   const [discription, setDiscription] = useState('');
 
+  const uploadHandler = async (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append('image', file);
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      };
+      const { data } = await axios.post(
+        'http://localhost:5000/api/upload',
+        formData,
+        config
+      );
+      return await data;
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
   const SubmitHandler = (e) => {
     e.preventDefault();
     const formdata = {
-      Category,
+      Category: customCategory ? customCategoryValue : Category,
       productName,
       productPrice,
       Province,
@@ -69,9 +96,31 @@ const ProductSellForm = () => {
     };
     console.log('formdata', formdata);
     dispatch(createProduct(formdata));
-    console.log('inState =====>', data);
-    // setEmail('');
-    // setPassword('');
+    // console.log('inState =====>', data);
+    setCategory('');
+    setAddress('');
+    setArea('');
+    setCustomCategoryValue('');
+    setProductPrice('');
+    setProvince('');
+    setImages({
+      imgfrontside: '',
+      imgleftside: '',
+      imgrightside: '',
+      imgbackside: '',
+    });
+    setImages('');
+    setFeatured(false);
+    setCustomCategory('');
+    setDetail({
+      Make: '',
+      Condition: '',
+      type: '',
+    });
+    setProductName('');
+    setDiscription('');
+    setCity('');
+    e.target.reset();
   };
 
   const HandleDetails = (event) => {
@@ -82,18 +131,33 @@ const ProductSellForm = () => {
     });
   };
 
-  const HandleImages = (event) => {
+  const HandleImages = async (event) => {
     const name = event.target.name;
     setImages({
       ...images,
-      [name]: event.target.value,
+      [name]: await uploadHandler(event),
     });
   };
 
+  useEffect(() => {
+    dispatch(getCategory());
+  }, [success]);
   return (
     <div className={style.siginContainer}>
       <h2 className={style.heading}>Product Sell</h2>
-      {success && <p style={{ color: 'blue', margin: '10px' }}>{success}</p>}
+      {success && (
+        <p
+          style={{
+            color: 'blue',
+            margin: '10px',
+            background: 'lightblue',
+            padding: '15px 10px',
+            borderRadius: '5px',
+          }}
+        >
+          {success}
+        </p>
+      )}
 
       <br />
       <form onSubmit={SubmitHandler}>
@@ -105,7 +169,14 @@ const ProductSellForm = () => {
             <Select
               native
               value={Category}
-              onChange={(e) => setCategory(e.target.value)}
+              onChange={(e) => {
+                setCategory(e.target.value);
+                if (e.target.value === 'other') {
+                  setCustomCategory(true);
+                } else {
+                  setCustomCategory(false);
+                }
+              }}
               label='Category'
               inputProps={{
                 name: 'category',
@@ -113,11 +184,27 @@ const ProductSellForm = () => {
               }}
             >
               <option aria-label='None' value='' />
-              <option value='Ten'>Ten</option>
-              <option value='Twenty'>Twenty</option>
-              <option value='Thirty'>Thirty</option>
+              {list &&
+                list?.map((v, ind) => (
+                  <option key={ind} value={v}>
+                    {v}
+                  </option>
+                ))}
+              <option value='other'>other</option>
             </Select>
           </FormControl>
+          {customCategory && (
+            <TextField
+              id='outlined-basic'
+              label='Custom Category'
+              variant='outlined'
+              required
+              value={customCategoryValue}
+              onChange={(e) => setCustomCategoryValue(e.target.value)}
+              className={style.inputField}
+            />
+          )}
+
           <TextField
             id='outlined-basic'
             label='Product Name'
@@ -221,7 +308,7 @@ const ProductSellForm = () => {
             label='Feature'
           />
         </div>
-        {/* <h4 className={style.subTitle}>Images</h4>
+        <h4 className={style.subTitle}>Images</h4>
         <div className={style.fieldsContainerImage}>
           <div className={style.inputFieldImage}>
             <label className={style.imageLabel} for='imgfrontside'>
@@ -270,7 +357,7 @@ const ProductSellForm = () => {
               type='file'
             />
           </div>
-        </div> */}
+        </div>
 
         <div className={style.fieldsContainer}>
           <TextareaAutosize
